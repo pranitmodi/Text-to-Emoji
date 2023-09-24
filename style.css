@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,100;1,300;1,500;1,600;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,700&display=swap');
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Ubuntu', sans-serif;
+    color: #fff;
+}
+body,html
+{
+    height: 100%;
+    width: 100%;
+    background-color: #111;
+}
+#main
+{
+    height: 100%;
+    width: 100%;
+    background-color: #111;
+    /* background-color: crimson; */
+    align-items: center;
+    text-align: center;
+}
+#head
+{
+    padding-top: 40px;
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+#head .arrow
+{
+    padding-bottom: 14px;
+}
+#head h1
+{
+    font-size: 50px;
+}
+#option
+{
+    background-color: #1f1f1f;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    width: max-content;
+    position: relative;
+    left: 50%;
+    padding: 10px;
+    transform: translate(-50%);
+}
+#option button
+{
+    background-color: transparent;
+    padding: 10px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 400;
+    color: #dadada;
+    font-size: 16px;
+    border: none;
+    justify-content: center;
+}
+#option button i
+{
+    font-size: 16px;
+}
+#option .encrypt
+{
+    background-color: #3a3a3a;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 10px;
+}
+#card
+{
+    width: 40%;
+    padding: 30px;
+    padding-bottom: 0px;
+    margin: auto;
+    /* background-color: yellow; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: hidden;
+}
+#card h3
+{
+    color: #5a5a5a;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+#card .field
+{
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #3a3a3a;
+    border-radius: 8px;
+    color: #fff;
+    border: 1px solid #595959;
+    margin-bottom: 20px;
+}
+#card textarea
+{
+    resize: vertical;
+    width: 100%;
+}
+#card button
+{
+    background-color: #3a3a3a;
+    color: #fff;
+    padding: 14px 20px;
+    width: 100%;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 7px;
+    border: none;
+    margin-bottom: 20px;
+}
+#result
+{
+    display: none;
+    text-align: left;
+    width: 100%;
+}
+#result-text
+{
+    position: relative;
+    /* display: none; */
+    align-items: center;
+}
+#result-text i
+{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border: 2px solid #595959;
+    padding: 4px;
+    border-radius: 6px;
+    z-index: 4;
+    background-color: #3a3a3a;
+}

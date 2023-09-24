@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <title>Text-n-moji</title>
+</head>
+<body>
+    <div id="main">
+        <div id="head">
+            <h1>Text</h1>
+            <h1 class="arrow">→</h1>
+            <h1>Emoji</h1>
+        </div>
+        <div id="option">
+            <button class="encrypt"><i class="ri-lock-line"></i> Encrypt Text</button>
+            <button class="decrypt"><i class="ri-lock-unlock-line"></i> Decrypt Text</button>
+        </div>
+        <div id="card">
+            <h3 id="text1">1. Type a message</h3>
+            <textarea class="field" name="imput-main" id="message" placeholder="Write your message"></textarea>
+            <h3 id="text2">2. Set a password</h3>
+            <input class="field" type="password" placeholder="Eg: 1234" name="input-pass" id="password">
+            <h3 id="text3">3. Encrypt message</h3>
+            <button id="main-btn"><i class="ri-lock-line"></i> Encrypt Text</button>
+            <div id="result">
+                <h3 id="text4">Encrypted Text:</h3>
+                <div class="field" id="result-text">
+                    <h3></h3>
+                    <button id="copy-btn"><i class="ri-file-copy-line"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./script.js"></script>
+</body>
+</html>
