@@ -113,9 +113,9 @@ function process()
     }
     else
     {
-      console.log("Doing DECRYPTION")
+      // console.log("Doing DECRYPTION")
       data.replace(/[0-9]/g, '');
-      console.log(data)
+      // console.log(data)
       var cypher = 'U2FsdGVkX1';
       try 
       {
@@ -128,9 +128,9 @@ function process()
           }
           //decrypt
           var bytes  = CryptoJS.AES.decrypt(cypher,pass);
-          console.log("bytes: " + bytes)
+          // console.log("bytes: " + bytes)
           clutter = bytes.toString(CryptoJS.enc.Utf8);
-          console.log("clutter" + clutter)
+          // console.log("clutter" + clutter)
       } 
       catch (error) 
       {
@@ -145,7 +145,7 @@ function process()
 encrypt.addEventListener("click",function()
 {
     todo = 0
-    console.log("inside encrypt")
+    // console.log("inside encrypt")
     gsap.to(encrypt,
         {
             backgroundColor: "#3a3a3a",
@@ -185,8 +185,8 @@ encrypt.addEventListener("click",function()
 decrypt.addEventListener("click",function()
 {
     todo = 1
-    console.log("Decrypt---" + todo)
-    console.log("inside decrypt")
+    // console.log("Decrypt---" + todo)
+    // console.log("inside decrypt")
     gsap.to(decrypt,
         {
             backgroundColor: "#3a3a3a",
@@ -234,12 +234,12 @@ document.querySelector("#card #main-btn").addEventListener("click",function()
 
 document.querySelector("#card #result #copy-btn").addEventListener("click",function()
 {
-    console.log("ander")
+    // console.log("ander")
     if(result_ans.innerText != "")
     {
         document.querySelector("#card #result #copy-btn").innerHTML = `<i id="copy-btn" class="ri-check-double-line"></i>`
 
-        console.log("Copied: " + `${result_ans.innerText}`)
+        // console.log("Copied: " + `${result_ans.innerText}`)
         navigator.clipboard.writeText(result_ans.innerText)
     }
 })
