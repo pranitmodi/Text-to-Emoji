@@ -155,3 +155,18 @@ body,html
     background-color: #3a3a3a;
     color: #fff;
 }
+#card h2
+{
+    margin-top: 30px;
+    position: relative;
+    bottom: 10px;
+    text-align: center;
+    font-size: 15px;
+    left: 50%;
+    transform: translate(-50%);
+    color: #5a5a5a;
+}
+#card h2 a
+{
+    text-decoration: none;
+}
