@@ -104,7 +104,9 @@ function process()
     if(todo == 0)
     {
         var cypher = CryptoJS.AES.encrypt(data,pass).toString();
+        // console.log(cypher)
         var sliced = cypher.slice(10);//remove U2FsdGVkX1
+        // console.log(sliced)
         for (var i = 0; i < sliced.length; i++) 
         {
             var dec = sliced.codePointAt(i);
