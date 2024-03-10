@@ -75,7 +75,8 @@ body,html
 }
 #card
 {
-    width: 40%;
+    width: 80vw;
+    max-width: 450px;
     padding: 30px;
     padding-bottom: 0px;
     margin: auto;
