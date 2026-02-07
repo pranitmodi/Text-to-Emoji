@@ -1,11 +1,58 @@
-let result = document.querySelector("#result")
-let result_text = document.querySelector("#result #result-text")
-let result_ans = document.querySelector("#result #result-text h3")
+const result = document.querySelector("#result")
+const result_text = document.querySelector("#result #result-text")
+const result_ans = document.querySelector("#result #result-text h3")
+const notice = document.querySelector("#notice")
 
-let encrypt = document.querySelector("#option .encrypt")
-let decrypt = document.querySelector("#option .decrypt")
+const encrypt = document.querySelector("#option .encrypt")
+const decrypt = document.querySelector("#option .decrypt")
 
 let todo = 0
+
+function setNotice(message, type = "") {
+  if (!notice) return;
+  notice.className = type ? type : "";
+  notice.textContent = message;
+}
+
+function clearNotice() {
+  setNotice("");
+}
+
+function hideResult() {
+  gsap.to(result, {
+    duration: 0.2,
+    autoAlpha: 0,
+    ease: "power2.out",
+    onComplete: () => {
+      result.style.display = "none";
+    },
+  });
+}
+
+function showResult() {
+  result.style.display = "block";
+  gsap.fromTo(
+    result,
+    { autoAlpha: 0, y: 6 },
+    { duration: 0.25, autoAlpha: 1, y: 0, ease: "power2.out" }
+  );
+}
+
+function animateArrow(isDecryptMode) {
+  const rotate = isDecryptMode ? 180 : 0;
+  gsap.to("#head .arrow", {
+    duration: 0.45,
+    rotate,
+    x: 0,
+    y: 0,
+    transformOrigin: "50% 50%",
+    ease: "power3.inOut",
+  });
+}
+
+function runMainAction() {
+  document.querySelector("#card #main-btn").click();
+}
 
 function toEmoji(dec) 
 { //map ascii printable characters to specific emoji faces
@@ -94,53 +141,89 @@ function toCharacter(dec)
     }
 }
 
+function isSupportedEmojiCodePoint(codePoint) {
+  if (
+    codePoint === 128169 ||
+    codePoint === 129488 ||
+    codePoint === 129402 ||
+    codePoint === 129400 ||
+    codePoint === 129303
+  ) {
+    return true;
+  }
+
+  if (codePoint >= 128577 && codePoint <= 128580) return true;
+  if (codePoint >= 128584 && codePoint <= 128586) return true;
+  if (codePoint >= 129296 && codePoint <= 129301) return true;
+  if (codePoint >= 128512 && codePoint <= 128567) return true;
+  if (codePoint >= 129312 && codePoint <= 129317) return true;
+  if (codePoint >= 129319 && codePoint <= 129327) return true;
+  if (codePoint >= 129392 && codePoint <= 129397) return true;
+  return false;
+}
+
 function process()
 {
-    let data = document.querySelector("#card #message").value
-    let pass = document.querySelector("#card #password").value
+    clearNotice();
 
-    let clutter = ""
+    const data = document.querySelector("#card #message").value;
+    const pass = document.querySelector("#card #password").value;
+    const trimmedData = data.trim();
+    const trimmedPass = pass.trim();
 
-    if(todo == 0)
-    {
-        var cypher = CryptoJS.AES.encrypt(data,pass).toString();
-        // console.log(cypher)
-        var sliced = cypher.slice(10);//remove U2FsdGVkX1
-        // console.log(sliced)
-        for (var i = 0; i < sliced.length; i++) 
-        {
-            var dec = sliced.codePointAt(i);
-            clutter += toEmoji(dec);
-        }
-    }
-    else
-    {
-      // console.log("Doing DECRYPTION")
-      data.replace(/[0-9]/g, '');
-      // console.log(data)
-      var cypher = 'U2FsdGVkX1';
-      try 
-      {
-        console.log("okay")
-          //build cyphertext
-          for (var i = 0; i < data.length/2; i++) 
-          {
-              var dec = data.codePointAt(i * 2);
-              cypher = cypher + toCharacter(dec);
+    let clutter = "";
+
+    if (todo === 0) {
+      if (!trimmedData) {
+        setNotice("Please enter a message.", "error");
+        return "";
+      }
+      if (!trimmedPass) {
+        setNotice("Please set a password.", "error");
+        return "";
+      }
+
+      const cypher = CryptoJS.AES.encrypt(trimmedData, trimmedPass).toString();
+      const sliced = cypher.slice(10); // remove U2FsdGVkX1
+      for (let i = 0; i < sliced.length; i++) {
+        const dec = sliced.codePointAt(i);
+        clutter += toEmoji(dec);
+      }
+    } else {
+      if (!trimmedData) {
+        setNotice("Please paste the encrypted emojis.", "error");
+        return "";
+      }
+      if (!trimmedPass) {
+        setNotice("Please enter a password.", "error");
+        return "";
+      }
+
+      let cypher = "U2FsdGVkX1";
+      try {
+        const symbols = Array.from(trimmedData);
+        for (const symbol of symbols) {
+          const dec = symbol.codePointAt(0);
+          if (!isSupportedEmojiCodePoint(dec)) {
+            throw new Error("Unsupported character");
           }
-          //decrypt
-          var bytes  = CryptoJS.AES.decrypt(cypher,pass);
-          // console.log("bytes: " + bytes)
-          clutter = bytes.toString(CryptoJS.enc.Utf8);
-          // console.log("clutter" + clutter)
-      } 
-      catch (error) 
-      {
-          clutter = '';
+          cypher += toCharacter(dec);
+        }
+
+        const bytes = CryptoJS.AES.decrypt(cypher, trimmedPass);
+        clutter = bytes.toString(CryptoJS.enc.Utf8);
+      } catch (error) {
+        clutter = "";
+      }
+
+      if (!clutter) {
+        setNotice("Something went wrong. Please try again.", "error");
+        return "";
       }
     }
-    
-    result_ans.innerText = clutter
+
+    result_ans.innerText = clutter;
+    return clutter;
 
 }
 
@@ -154,7 +237,7 @@ encrypt.addEventListener("click",function()
             color: "#fff",
             fontWeight: 600,
             borderRadius: "10px",
-            ease:Power3
+        ease: "power3.out"
         })
 
     gsap.to(decrypt,
@@ -163,16 +246,13 @@ encrypt.addEventListener("click",function()
             color: "#dadada",
             fontWeight: 400,
             borderRadius: "0px",
-            ease:Power3
+        ease: "power3.out"
         })
 
-    gsap.to("#head .arrow",
-    {
-        duration:1,
-        rotate:0
-    })
+    animateArrow(false)
 
-    result.style.display = "none"
+    hideResult()
+    clearNotice()
 
     document.querySelector("#card #message").value = ""
     document.querySelector("#card #password").value = ""
@@ -195,7 +275,7 @@ decrypt.addEventListener("click",function()
             color: "#fff",
             fontWeight: 600,
             borderRadius: "10px",
-            ease:Power3
+        ease: "power3.out"
         })
 
     gsap.to(encrypt,
@@ -204,16 +284,13 @@ decrypt.addEventListener("click",function()
             color: "#dadada",
             fontWeight: 400,
             borderRadius: "0px",
-            ease:Power3
+        ease: "power3.out"
         })
 
-    gsap.to("#head .arrow",
-    {
-        duration:1,
-        rotate:180
-    })
+    animateArrow(true)
 
-    result.style.display = "none"
+    hideResult()
+    clearNotice()
 
     document.querySelector("#card #message").value = ""
     document.querySelector("#card #password").value = ""
@@ -229,9 +306,13 @@ document.querySelector("#card #main-btn").addEventListener("click",function()
 {
     document.querySelector("#card #result #copy-btn").innerHTML = `<i class="ri-file-copy-line"></i>`         
 
-    process()
+    const output = process()
 
-    result.style.display = "block"
+    if (output) {
+      showResult()
+    } else {
+      hideResult()
+    }
 })
 
 document.querySelector("#card #result #copy-btn").addEventListener("click",function()
@@ -241,7 +322,33 @@ document.querySelector("#card #result #copy-btn").addEventListener("click",funct
     {
         document.querySelector("#card #result #copy-btn").innerHTML = `<i id="copy-btn" class="ri-check-double-line"></i>`
 
-        // console.log("Copied: " + `${result_ans.innerText}`)
-        navigator.clipboard.writeText(result_ans.innerText)
+        try {
+          navigator.clipboard.writeText(result_ans.innerText)
+          setNotice("Copied to clipboard.", "success")
+        } catch (error) {
+          setNotice("Something went wrong. Please copy manually.", "error")
+        }
     }
 })
+
+document.querySelector("#card #message").addEventListener("input", clearNotice)
+document.querySelector("#card #password").addEventListener("input", clearNotice)
+
+// Keyboard shortcuts
+document.querySelector("#card #password").addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    runMainAction();
+  }
+});
+
+document.querySelector("#card #message").addEventListener("keydown", (event) => {
+  // Keep normal Enter behavior in textarea, but allow Cmd/Ctrl+Enter to submit.
+  if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
+    event.preventDefault();
+    runMainAction();
+  }
+});
+
+// Ensure result starts hidden but animatable
+gsap.set(result, { autoAlpha: 0 })

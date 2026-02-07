@@ -15,16 +15,32 @@ body,html
 }
 #main
 {
-    height: 100%;
+    min-height: 100vh;
+}
+#main
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px 72px;
+    gap: 12px;
+}
+@media (min-height: 900px)
+{
+    #main
+    {
+        padding-bottom: 120px;
+    }
+}
+#main
+{
     width: 100%;
     background-color: #111;
-    /* background-color: crimson; */
-    align-items: center;
     text-align: center;
 }
 #head
 {
-    padding-top: 20px;
     margin-bottom: 10px;
     width: 100%;
     display: flex;
@@ -34,11 +50,18 @@ body,html
 }
 #head .arrow
 {
-    padding-bottom: 14px;
+    padding-bottom: 0;
+    display: inline-block;
+    will-change: transform;
+    width: 1.25em;
+    text-align: center;
+    line-height: 1;
+    transform: translateZ(0);
 }
 #head h1
 {
-    font-size: 50px;
+    font-size: clamp(34px, 6vw, 50px);
+    line-height: 1.05;
 }
 #option
 {
@@ -46,10 +69,9 @@ body,html
     margin-bottom: 20px;
     border-radius: 12px;
     width: max-content;
-    position: relative;
-    left: 50%;
     padding: 10px;
-    transform: translate(-50%);
+    margin-left: auto;
+    margin-right: auto;
 }
 #option button
 {
@@ -75,11 +97,10 @@ body,html
 }
 #card
 {
-    width: 80vw;
-    max-width: 450px;
+    width: min(92vw, 480px);
     padding: 30px;
     padding-bottom: 0px;
-    margin: auto;
+    margin: 0 auto;
     /* background-color: yellow; */
     display: flex;
     flex-direction: column;
@@ -88,8 +109,8 @@ body,html
 }
 #card textarea
 {
-    overflow: hidden;
-    resize: none;
+    overflow: auto;
+    resize: vertical;
 }
 #card h3
 {
@@ -102,7 +123,7 @@ body,html
     width: 100%;
     padding: 10px;
     font-size: 15px;
-    font-family: 'Ubuntu', sans-serif;
+    font-family: 'Ubuntu', system-ui, -apple-system, 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
     background-color: #3a3a3a;
     border-radius: 8px;
     color: #fff;
@@ -125,6 +146,42 @@ body,html
     border-radius: 7px;
     border: none;
     margin-bottom: 20px;
+}
+
+@media (max-width: 420px)
+{
+    #card
+    {
+        padding: 22px;
+    }
+    #option button
+    {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+    #card button
+    {
+        padding: 12px 16px;
+    }
+}
+#notice
+{
+    width: 100%;
+    min-height: 18px;
+    margin-top: -6px;
+    margin-bottom: 16px;
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.2;
+    color: #a7a7a7;
+}
+#notice.error
+{
+    color: #ffb3b3;
+}
+#notice.success
+{
+    color: #b6ffcb;
 }
 #result
 {
@@ -152,7 +209,7 @@ body,html
 #result-text h3
 {
     font-size: 20px;
-    font-family: 'Ubuntu', sans-serif;
+    font-family: 'Ubuntu', system-ui, -apple-system, 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
     background-color: #3a3a3a;
     color: #fff;
 }
